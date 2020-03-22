@@ -24,4 +24,4 @@ yarn-error.log*
 
 .env
 .vscode
-front_end
+node_modules
