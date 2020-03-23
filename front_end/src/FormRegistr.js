@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
 import {TextField} from '@material-ui/core/';
-import { makeStyles } from '@material-ui/core/styles';
 import {Button} from '@material-ui/core/';
+import {withStyles} from "@material-ui/core/styles";
 
-const useStyles = makeStyles(theme => ({
+
+const styles = theme => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
@@ -29,57 +30,49 @@ const useStyles = makeStyles(theme => ({
       width: '300px; height: 55px',
     },
   },
-}));
+});
 
 
-
-export default function FormRegistr() {
-  const classes = useStyles();
+class FormRegistr extends React.Component {
+  render() {
+    const { classes } = this.props;
     return (
       <div className={classes.border}>
-      <form className={classes.root} noValidate autoComplete="off">
+      <form className={classes.root} noValidate autoComplete="off" onSubmit={this.props.RegistrData}>
         <div>
           <TextField 
-            id="filled-login" 
+            id="filled-error" 
             label="Login" 
-            type="login" 
+            type="login"
+            name="username" 
             variant="filled" />
         </div>
         <div>
           <TextField 
-            id="filled-login" 
+            id="filled-error" 
             label="Email" 
-            type="email" 
+            type="email"
+            name="email"
             variant="filled" />
         </div>
         <div>
           <TextField
-            id="filled-password"
+            id="filled-error"
             label="Password"
-            name="password"
             type="password"
             autoComplete="current-password"
+            name="password"
             variant="filled"
           />
         </div>
         <div className={classes.button}>
-          <Button variant="contained" color="primary">Registration</Button>
-          <Button variant="outlined" color="primary">I have account</Button>
+          <Button type="submit" variant="contained" color="primary">Registration</Button>
+          <Button onClick={this.props.getFormLogin} variant="outlined" color="primary">I have account</Button>
         </div>
       </form>
       </div>
     );
   };
+};
 
-
-
-
-
-//function App() {
-//  return (
-//    <div className="App">
-//      <h1> Hello World</h1>
-//    </div>
-//  );
-//  return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hello World'));
-//}
+export default withStyles(styles)(FormRegistr);
