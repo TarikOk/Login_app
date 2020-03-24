@@ -24,7 +24,6 @@ class App extends React.Component {
   userReg = async (e) => {
     const request = new FormData(e.target);
     const requestOptions = {
-      mode: 'no-cors',
       method: 'POST',
       body: request,
     };
@@ -37,13 +36,12 @@ class App extends React.Component {
     e.preventDefault();
     const request = new FormData(e.target);
     const requestOptions = {
-      mode: 'no-cors',
       method: 'POST',
       body: request,
     };
     const response = await fetch(`http://127.0.0.1:8000/auth/token/login/`, requestOptions);
-    //const data = await response.json();
-    //console.log(data);
+    const data = await response.json();
+    console.log(data);
   };
 
   render() {
