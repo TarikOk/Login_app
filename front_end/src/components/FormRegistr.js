@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import {TextField} from '@material-ui/core/';
 import {Button} from '@material-ui/core/';
 import {withStyles} from "@material-ui/core/styles";
@@ -13,7 +12,7 @@ const styles = theme => ({
     },
   },
   border: {
-    width: '315px; height: 290px',
+    width: '315px; height: 350px',
     borderRadius: '15px',
     backgroundColor: '#B0E0E6',
     display: 'inline-block',
@@ -32,23 +31,32 @@ const styles = theme => ({
   },
 });
 
-class FormLogin extends React.Component {
+
+class FormRegistr extends React.Component {
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.border}>
-      <form className={classes.root} noValidate autoComplete="off" onSubmit={this.props.LoginData} >
+      <form className={classes.root} noValidate autoComplete="off" onSubmit={this.props.RegistrData}>
         <div>
           <TextField 
-            id="outlined-error" 
+            id="filled-error" 
             label="Login" 
-            type="login" 
-            name="username"
+            type="login"
+            name="username" 
+            variant="filled" />
+        </div>
+        <div>
+          <TextField 
+            id="filled-error" 
+            label="Email" 
+            type="email"
+            name="email"
             variant="filled" />
         </div>
         <div>
           <TextField
-            id="filled-password"
+            id="filled-error"
             label="Password"
             type="password"
             autoComplete="current-password"
@@ -57,8 +65,8 @@ class FormLogin extends React.Component {
           />
         </div>
         <div className={classes.button}>
-          <Button type="submit" variant="contained" color="primary">Sign In</Button>
-          <Button onClick={this.props.getFormReg} variant="outlined" color="primary">Registration</Button>
+          <Button type="submit" variant="contained" color="primary">Registration</Button>
+          <Button onClick={this.props.getFormLogin} variant="outlined" color="primary">I have account</Button>
         </div>
       </form>
       </div>
@@ -66,4 +74,4 @@ class FormLogin extends React.Component {
   };
 };
 
-export default withStyles(styles)(FormLogin);
+export default withStyles(styles)(FormRegistr);

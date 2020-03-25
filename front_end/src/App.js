@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
-import FormLogin from './FormLogin';
-import FormRegistr from './FormRegistr';
+import FormLogin from './components/FormLogin';
+import FormRegistr from './components/FormRegistr';
 
 
 
