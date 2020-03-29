@@ -25,3 +25,6 @@ front_end/node_modules
 
 .env
 .vscode
+__pycache__
+db.sqlite3
+migrations

@@ -26,10 +26,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authorize',
+
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
     'corsheaders',
+    'channels',
+    'chat_room',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -116,7 +120,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PERMISSION_CLASSES": (
+        #"rest_framework.permissions.IsAuthenticated",
+        #"rest_framework.schemas.coreapi.AutoSchema",
+        ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.TokenAuthentication",
     ),
@@ -135,3 +142,5 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
 ]
+
+ASGI_APPLICATION = "main_app.routing.application"
