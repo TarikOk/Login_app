@@ -15,5 +15,4 @@ class RoomSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Room
-        fields = ("id", "name", "creator", "invited", "date", "private")
-
+        fields = ("id", "hash_id", "name", "creator", "invited", "private")

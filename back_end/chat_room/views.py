@@ -1,11 +1,14 @@
 from django.db.models import Q
+from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.generics import RetrieveAPIView
+from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework import generics
 from django.contrib.auth.models import User
 from chat_room.models import Room
-from chat_room.serializers import (RoomSerializers, UserSerializer)
+from chat_room.serializers import (UserSerializer, RoomSerializers)
 
 
 class Rooms(APIView):
@@ -19,8 +22,16 @@ class Rooms(APIView):
     def post(self, request):
         name = request.data.get("name")
         private = request.data.get("private")
-        try:    
+        user_id = request.data.get("invited")
+        try:
             Room.objects.create(creator=request.user, name=name, private=private)
+            users = user_id.get("id")
+            for user in users:
+                user = User.objects.get(id=user)
+                creator = request.user
+                room = Room.objects.get(id=room_req)
+                if room.creator == creator:
+                    room.invited.add(user)
             return Response(status=201)
         except:
             return Response(status=400)
@@ -36,6 +47,20 @@ class Rooms(APIView):
             return Response(status=400)
 
 
+class RoomDetail(APIView):
+
+    def get_object(self, pk):
+        try:
+            return Room.objects.get(hash_id=pk)
+        except Room.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        room = self.get_object(pk)
+        serializer = RoomSerializers(room)
+        return Response(serializer.data)
+    
+
 class AddUsersRoom(APIView):
 
     def get(self, request):
@@ -45,29 +70,31 @@ class AddUsersRoom(APIView):
 
     def post(self, request):
         room_req = request.data.get("id")
-        user_req = request.data.get("user")
-        user_id = user_req.get("id")
-        user = User.objects.get(id=user_id)
-        creator = request.user
-        room = Room.objects.get(id=room_req)
-        if room.creator == creator:
-            room.invited.add(user)
-            room.save()
-            return Response(status=201)
-        else:
-            return Response(status=400)
+        user_id = request.data.get("invited")
+        users = user_id.get("id")
+        for user in users:
+            user = User.objects.get(id=user)
+            creator = request.user
+            room = Room.objects.get(id=room_req)
+            if room.creator == creator:
+                room.invited.add(user)
+            else:
+                return Response(status=400)
+        room.save()
+        return Response(status=201)
 
     def delete(self, request):
         room_req = request.data.get("id")
-        user_req = request.data.get("user")
-        user_id = user_req.get("id")
-        user = User.objects.get(id=user_id)
-        creator = request.user
-        room = Room.objects.get(id=room_req)
-        if room.creator == creator:
-            room.invited.remove(user)
-            room.save()
-            return Response(status=204)
-        else:
-            return Response(status=400)
-
+        user_id = request.data.get("invited")
+        users = user_id.get("id")
+        for user in users:
+            user = User.objects.get(id=user)
+            creator = request.user
+            room = Room.objects.get(id=room_req)
+            if room.creator == creator:
+                room.invited.remove(user)
+            else:
+                return Response(status=400)
+        room.save()
+        return Response(status=204)
+        

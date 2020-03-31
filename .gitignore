@@ -23,7 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 front_end/node_modules
 
-.env
+.venv
 .vscode
 __pycache__
 db.sqlite3
